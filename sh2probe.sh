@@ -79,18 +79,6 @@ curl "${URL}/login.cgi" \
     --data-raw "GO=IPv6.htm&usr=admin&pws=${PWS}"
 echo "[end Login]"
 
-# Call the IPv6 page
-curl "${URL}/IPv6.htm" \
-    -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0' \
-    -H 'Accept: */*' \
-    -H 'Accept-Language: en-GB,en;q=0.5' \
-    -H 'Accept-Encoding: gzip, deflate' \
-    -H "Referer: ${URL}" \
-    -H 'DNT: 1' \
-    -H 'Connection: keep-alive' \
-    -H "Cookie: urn=${URN}; logout=not" \
-    -o /tmp/html.$$
-
 # Calculate the epoch time that has to be provided for the router to respond
 tMagic=$(date +%s%3N)
 echo ${tMagic}
@@ -102,7 +90,7 @@ FETCHED_JS=$(curl "${URL}/cgi/${TARGET}.js?t=${tMagic}" \
     -H 'Accept-Encoding: gzip, deflate' \
     -H 'DNT: 1' \
     -H 'Connection: keep-alive' \
-    -H "Referer: ${URL}/IPv6.htm" \
+    -H "Referer: ${URL}/.htm" \
     -H "Cookie: urn=${URN}; logout=not")
 
 echo "$FETCHED_JS"
