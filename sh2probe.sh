@@ -3,19 +3,20 @@
 # sh2probe
 # version 1.0
 
-# A bash script to query a BT Smart Hub 2 from the command line
+# A bash script to query a BT Smart Hub 2 from the command line.
 # The data fetched is returned as javascript.
 # This script does not do the parsing of the results.
 
 # Router IP address (no trailing slash)
 URL="http://192.168.0.1"
 
-# pws is hash of password. I haven't replicated hashing function, so use web browser to get a copy as it doesn't change
+# pws is hash of password. I have not replicated the hashing function, and
+# rely in using a web browser to get a copy (as it doesn't change over time)
 #  1. Open Dev Tools - Network
 #  2. Trigger login
 #  3. Look for login.cgi, review Request and copy pws value
 
-PWS="<insert hash here>"
+PWS="<insert password hash here>"
 
 # Pages to query depending on the required data (other pages may exist):
 # cgi_basicBrightness
@@ -71,7 +72,7 @@ curl "${URL}/login.cgi" \
     -H 'Accept-Language: en-GB,en;q=0.5' \
     -H 'Accept-Encoding: gzip, deflate' \
     -H 'Content-Type: text/plain;charset=UTF-8' \
-    -H 'Origin: http://192.168.0.1' \
+    -H "Origin: ${URL}" \
     -H 'DNT: 1' \
     -H 'Connection: keep-alive' \
     -H "Referer: ${URL}" \
@@ -94,7 +95,7 @@ FETCHED_JS=$(curl "${URL}/cgi/${TARGET}.js?t=${tMagic}" \
     -H "Cookie: urn=${URN}; logout=not")
 
 echo "$FETCHED_JS"
-exit    
+exit
 
 
 
